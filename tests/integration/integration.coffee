@@ -1,15 +1,15 @@
 assert = require("assert")
-eunomia = _ = require("../../src/eunomia")
-useCases = _ = require("./use_cases")
+eunomia = require("../../src/eunomia")
+useCases = require("./use_cases")
 
 
 assertHasRole (object, role) ->
-  if !_.hasRole(object, role)
+  if !eunomia.hasRole(object, role)
     assert(false, 'Object ' + object + ' does not have role ' + role)
 
 
 assertDoesNotHaveRole (object, role) ->
-  if _.hasRole(object, role)
+  if eunomia.hasRole(object, role)
     assert(false, 'Object ' + object + ' has role ' + role)
 
 
@@ -18,7 +18,7 @@ describe('Roles', ->
     # roles only make sense inside a context, therefore can only be given (and removed) by a context object
 
     it('can be applied to any object', ->
-      _.context('Test roles', [useCases.roles.developer, useCases.roles.projectManager], (contextObject) ->
+      eunomia.context('Test roles', [useCases.roles.developer, useCases.roles.projectManager], (contextObject) ->
         marcos = Person('Marcos', 'Diez')
 
         contextObject.giveRoles(
@@ -33,7 +33,7 @@ describe('Roles', ->
     )
 
     it('can be removed', ->
-      _.context('Test roles', [useCases.roles.developer, useCases.roles.projectManager], (contextObject) ->
+      eunomia.context('Test roles', [useCases.roles.developer, useCases.roles.projectManager], (contextObject) ->
         marcos = Person('Marcos', 'Diez')
 
         contextObject.giveRoles(
@@ -66,7 +66,7 @@ describe('Roles', ->
     )
 
     it('does not accept roles not defined during initialization', ()->
-      _.context('Test use case', [useCases.roles.developer], (contextObject)->
+      eunomia.context('Test use case', [useCases.roles.developer], (contextObject)->
 
       )
     )

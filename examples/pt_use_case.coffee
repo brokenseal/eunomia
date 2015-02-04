@@ -1,3 +1,7 @@
+eunomia = require("../../src/eunomia")
+_ = require("underscore")
+
+
 # this is a set of classes, roles and complex contexts used by tests
 class Person
   constructor(@firstName, @lastName)
@@ -79,44 +83,31 @@ roles = {
   }
 }
 
-# work in progress
-#ptUseCase = _.context('Pivotal Tracker story life cycle', [roles.developer, roles.tester, roles.merger], (contextObject, state) ->
-#  # inside a use case you can use another use case
-#  pr = prUseCase({
-#    # initialize objects used inside this context/use case
-#    # this will represent the state of the context object
-#    repository: Repository('farmforce')
-#    developer: Person('Davide', 'Callegari')
-#    testers: [Person('Namrata', 'Dharmani'), Person('Saurav', 'Batti')]
-#    merger: Person('Marcos', 'Diez')
-#  })
-#)
-
-prUseCase = _.context(
+prUseCase = eunomia.context(
   # short description of this use case, for a more long description add comments in the code at the beginning of the
   # context
   # optional?
   'PR use case',
 
-  # a list of roles that actors will play inside of this context
-  [roles.repository, roles.developer, roles.tester, roles.merger, roles.codeReviewer, roles.builder],
+  # an object describing roles that actors will play inside of this context
+  # during the setup phase, the context object will manage the mapping between the given actors to the roles
+  # this way we are sure that any given actor has the correct role
+  # furthermore, to avoid polluting the original actor objects and therefore consolidating the idea that the context is
+  # an isolated environment, we create a new object having its prototype the actor itself, then applying the various
+  # roles to the actor
+  roles,
 
-  # a function describing interaction between actors, that's where the action is
-  (contextObject, actors, state) ->
-  # initialization time, give roles to actors
-  # should this be automated? not sure, it might be an overkill; a solution would be to give actors to the context in
-  # the right sequence
-  # e.g. prUseCase(Person('Dev'), Person('Tester'), Person('Manager'), Person('Reviewer'))
-  # this way we could have an automatic and direct mapping of roles with actors at initialization time, it might work
-  # the problem with this approach is that I might have more actors, already having the correct role or not needing a
-  # particular role, they might be already smart enough
-  # in the case they are smart enough though we can use the expected role as an interface, thus forcing structural
-  # typing on the already smart enough object
-  contextObject.giveRole(roles.tester).to(actors.tester)
-  contextObject.giveRole(roles.developer).to(actors.developer)
-  contextObject.giveRole(roles.merger).to(actors.merger)
-  contextObject.giveRole(roles.codeReviewer).to(actors.codeReviewer)
+  # the use case, a function describing interaction between actors; a function well describes an isolated running
+  # environment and it must not maintain any state, it needs to be an enclosed, isolated environment
+  # that's where the action is
+  # the returning value of eunomia.context will be a wrapper of this function
 
+  # the shortcomings of a class based approach to contexts is that they maintain a state which most likely won't be
+  # valid after a first run
+
+  # I think it would be nice, but I'm not 100% sure if it's convenient or feasible, to have contexts as deterministic
+  # functions
+  (actors, state) ->
   # interaction time! explain interactions between actors through code
   pr = actors.developer.openPr(actors.repository, state.commits, actors.codeReviewer)
 
@@ -144,15 +135,7 @@ prUseCase = _.context(
 
   actors.merger.mergePr(actors.repository, pr)
 
-  # the use case needs to be an enclosed environment, the actors need to be stripped of any of the given roles
-  # if no role was given to a particular actor then no strip is necessary, actors might already have a particular role
-  # endorsed from an external context
   return pr
-  # implementation detail: at this point the context wrapper should clean up the roles added during this use case, it's
-  # better if it is an automated process, handled by the context creator
-  # actually, as a second thought, it might not be necessary if assigning a role will be done on a new object having as
-  # prototype the passed in actor, since the original actor will be left untouched and we would be using a new one
-
   ###
     Example usage:
 
@@ -164,13 +147,35 @@ prUseCase = _.context(
       tester: Person('Namrata', 'Dharmani')
       merger: Person('Marcos', 'Diez')
       codeReviewer: Person('Bartosz', 'Bekier')
-      jenkins: {}
+      builder: {}
     }, {
       commits: [1, 2, 3, 4, 5, 6, 7]
     })
   ###
 )
 
+# should we allow contexts to extend other contexts?
+# the shortcoming of a functional approach to contexts, compared to a class based approach, is that it's harder to
+# inherit from other contexts and change only a small part of the process
+# maybe this can be improved by making it possible to define multiple, smaller steps, instead of a single step
+farmforcePrUseCase = eunomia.context('Farmforce special PR use case', {
+  merger: _.extend(roles.merger, {hasMergerHammer: true})
+}).extends(prUseCase)
+
+
+# work in progress
+#ptUseCase = eunomia.context('Pivotal Tracker story life cycle', [roles.developer, roles.tester, roles.merger], (contextObject, state) ->
+#  # inside a use case you can use another use case
+#  pr = prUseCase({
+#    # initialize objects used inside this context/use case
+#    # this will represent the state of the context object
+#    repository: Repository('farmforce')
+#    developer: Person('Davide', 'Callegari')
+#    testers: [Person('Namrata', 'Dharmani'), Person('Saurav', 'Batti')]
+#    merger: Person('Marcos', 'Diez')
+#  })
+#)
+
 exports.prUseCase = prUseCase
-exports.ptUseCase = ptUseCase
+#exports.ptUseCase = ptUseCase
 exports.roles = roles
