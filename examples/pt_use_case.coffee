@@ -89,12 +89,12 @@ prUseCase = eunomia.context(
   # optional?
   'PR use case',
 
-  # an object describing roles that actors will play inside of this context
-  # during the setup phase, the context object will manage the mapping between the given actors to the roles
-  # this way we are sure that any given actor has the correct role
-  # furthermore, to avoid polluting the original actor objects and therefore consolidating the idea that the context is
-  # an isolated environment, we create a new object having its prototype the actor itself, then applying the various
-  # roles to the actor
+  # an object describing roles that entities will play inside of this context
+  # during the setup phase, the context object will manage the mapping between the given entities to the roles
+  # this way we are sure that any given entity has the correct role, therefore becoming an actor
+  # furthermore, to avoid polluting the entity objects passed in and therefore consolidating the idea that the
+  # context is an isolated environment, we create an actor having as prototype the entity itself, then applying
+  # the various roles to actor
   roles,
 
   # the use case, a function describing interaction between actors; a function well describes an isolated running
@@ -140,8 +140,7 @@ prUseCase = eunomia.context(
     Example usage:
 
     pr = useCases.prUseCase({
-      # initialize objects used inside this context/use case
-      # this will represent the state of the context object
+      # entities given to the context to be turned into actors
       repository: Repository('farmforce')
       developer: Person('Davide', 'Callegari')
       tester: Person('Namrata', 'Dharmani')
@@ -149,6 +148,9 @@ prUseCase = eunomia.context(
       codeReviewer: Person('Bartosz', 'Bekier')
       builder: {}
     }, {
+      # this will represent the state of the context object
+      # basically, an object representing any additional data that the actors need to accomplish their
+      # interactions
       commits: [1, 2, 3, 4, 5, 6, 7]
     })
   ###
