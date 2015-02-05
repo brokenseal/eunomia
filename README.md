@@ -1,5 +1,6 @@
 DCI project aiming Javascript
 =============================
+*For anyone interested, Eunomia is the ancient greek goddess of law and order*
 
 A short description of DCI: Data, Context, Interaction
 
@@ -8,10 +9,10 @@ A short description of DCI: Data, Context, Interaction
 - **Interaction**: interaction between actors is expressed with code inside the enclosed environment that is the context
 
 For a more complete description please read more at the following links:
-- [http://en.wikipedia.org/wiki/Data,_context_and_interaction](Wikipedia article about DCI)
-- [https://groups.google.com/forum/#!msg/object-composition/umY_w1rXBEw/hyAF-jPgFn4J](FullOO (a.k.a. DCI) Summit in Oslo)
-- [http://fulloo.info/](Full OO Website)
-- [http://folk.uio.no/trygver/](Trygve Reenskaug Website)
+- [Wikipedia article about DCI](http://en.wikipedia.org/wiki/Data,_context_and_interaction)
+- [FullOO (a.k.a. DCI](https://groups.google.com/forum/#!msg/object-composition/umY_w1rXBEw/hyAF-jPgFn4J) Summit in Oslo)
+- [Full OO Website](http://fulloo.info/)
+- [Trygve Reenskaug Website](http://folk.uio.no/trygver/)
 
 
 Terminology
@@ -24,5 +25,3 @@ Terminology
 - **Context object**: whenever a **context** is used, a new **context object** will be created that will handle **role** assignment and other things (not clear at the moment)
 
 This is still a very incomplete project under heavy development, I'm still not sure if I like the api as it is now
-
-For anyone interested, Eunomia is the ancient greek goddess of law and order

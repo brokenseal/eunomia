@@ -55,7 +55,7 @@ roles = {
     mergePr: (repository, pr)->
       return repository.mergePr(pr)
   }
-  repository: Object.create(Repository.prototype)
+  repository: _.extend({}, Repository.prototype)
   builder: {
     buildPr: getRandomBool
   }
