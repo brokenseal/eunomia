@@ -10,7 +10,7 @@ A short description of DCI: Data, Context, Interaction
 
 For a more complete description please read more at the following links:
 - [Wikipedia article about DCI](http://en.wikipedia.org/wiki/Data,_context_and_interaction)
-- [FullOO (a.k.a. DCI](https://groups.google.com/forum/#!msg/object-composition/umY_w1rXBEw/hyAF-jPgFn4J) Summit in Oslo)
+- [FullOO (a.k.a. DCI Summit in Oslo)](https://groups.google.com/forum/#!msg/object-composition/umY_w1rXBEw/hyAF-jPgFn4J)
 - [Full OO Website](http://fulloo.info/)
 - [Trygve Reenskaug Website](http://folk.uio.no/trygver/)
 
