@@ -7,6 +7,10 @@ class Person
   constructor(@firstName, @lastName)
 
 
+class Jenkins
+  constructor(@url)
+
+
 class Repository
   constructor(@name, @prs=[])->
 
@@ -83,12 +87,14 @@ roles = {
   }
 }
 
-prUseCase = eunomia.context(
-  # short description of this use case, for a more long description add comments in the code at the beginning of the
-  # context
-  # optional?
-  'PR use case',
 
+prUseCase = eunomia.context(
+# a short description of the context
+###
+  Pull Request use case
+  This context describes the workflow of a developer opening a pull request on a remote repository and the process
+  and people involved
+###
   # an object describing roles that entities will play inside of this context
   # during the setup phase, the context object will manage the mapping between the given entities to the roles
   # this way we are sure that any given entity has the correct role, therefore becoming an actor
@@ -107,9 +113,9 @@ prUseCase = eunomia.context(
 
   # I think it would be nice, but I'm not 100% sure if it's convenient or feasible, to have contexts as deterministic
   # functions
-  (actors, state) ->
+  (actors) ->
   # interaction time! explain interactions between actors through code
-  pr = actors.developer.openPr(actors.repository, state.commits, actors.codeReviewer)
+  pr = actors.developer.openPr(actors.repository, actors.commits, actors.codeReviewer)
 
   # the following processes can potentially be split into multiple, concurrent use cases
   # to simplify operations, this code assumes that people can accomplish their tasks instantaneously and will also
@@ -141,16 +147,16 @@ prUseCase = eunomia.context(
 
     pr = useCases.prUseCase({
       # entities given to the context to be turned into actors
+      # there needs to be a direct mapping one to one to roles with this object
       repository: Repository('farmforce')
       developer: Person('Davide', 'Callegari')
       tester: Person('Namrata', 'Dharmani')
       merger: Person('Marcos', 'Diez')
       codeReviewer: Person('Bartosz', 'Bekier')
-      builder: {}
-    }, {
-      # this will represent the state of the context object
-      # basically, an object representing any additional data that the actors need to accomplish their
-      # interactions
+      builder: Jenkins('http://my-awesome-jenkins-installation.com')
+
+      # in this case, no role will be assigned to the "commits" data and that's ok since it is a passive actor in this
+      # context
       commits: [1, 2, 3, 4, 5, 6, 7]
     })
   ###
@@ -160,13 +166,17 @@ prUseCase = eunomia.context(
 # the shortcoming of a functional approach to contexts, compared to a class based approach, is that it's harder to
 # inherit from other contexts and change only a small part of the process
 # maybe this can be improved by making it possible to define multiple, smaller steps, instead of a single step
+# or by simply using multiple contexts
 farmforcePrUseCase = eunomia.context('Farmforce special PR use case', {
   merger: _.extend(roles.merger, {hasMergerHammer: true})
 }).extends(prUseCase)
 
 
 # work in progress
-#ptUseCase = eunomia.context('Pivotal Tracker story life cycle', [roles.developer, roles.tester, roles.merger], (contextObject, state) ->
+#ptUseCase = eunomia.context(_.pick(roles, 'developer', 'tester', 'merger'), (actors) ->
+###
+  Pivotal Tracker story life cycle
+###
 #  # inside a use case you can use another use case
 #  pr = prUseCase({
 #    # initialize objects used inside this context/use case
