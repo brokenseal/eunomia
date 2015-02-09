@@ -6,12 +6,12 @@ testUtils = require("../utils")
 
 
 describe('A context', ->
-  it('', ->
+  it.skip('', ->
 
   )
 )
 
 describe('A role', ->
-  it('', ->
+  it.skip('', ->
   )
 )
