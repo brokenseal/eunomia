@@ -40,8 +40,6 @@ describe('A role', ->
   )
 
   it.skip('but multiple roles can be bound to the same actor', ->
-    # a context should only know about roles but is this ok? shouldn't the context know about the given entities itself?
-    # I'm confused here
   )
 
   it.skip('can only be bound to one actor', ->

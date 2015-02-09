@@ -1,4 +1,5 @@
-#eunomia = require("../../src/eunomia")
+assert = require("chai").assert
+eunomia = require("../src/eunomia")
 
 
 exports.assertHasRole = (object, role) ->

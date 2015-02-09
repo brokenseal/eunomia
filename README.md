@@ -25,3 +25,6 @@ Terminology
 - **Context object**: whenever a **context** is used, a new **context object** will be created that will handle **role** assignment and other things (not clear at the moment)
 
 This is still a very incomplete project under heavy development, I'm still not sure if I like the api as it is now
+
+
+Many thanks go to @explorigin for his help defining the spec.

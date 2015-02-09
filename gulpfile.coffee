@@ -28,32 +28,26 @@ gulp.task('browserify', ->
     .pipe(gulp.dest('dist/browser'))
 )
 
-gulp.task('test', ->
+gulp.task('spec', ->
   gulp.src([
-    'tests/unit/*.coffee'
+    'spec/*.coffee'
   ], {read: false}).pipe(mocha({reporter: 'nyan'}))
 )
 
-gulp.task('spec', ->
-  gulp.src([
-    'tests/unit/*.coffee'
-  ], {read: false}).pipe(mocha({reporter: 'spec'}))
-)
-
 gulp.task('lint', ->
-  gulp.src(['*.coffee', 'src/*.coffee', 'src/**/*.coffee', 'tests/*.coffee', 'tests/**/*.coffee'])
+  gulp.src(['*.coffee', 'src/*.coffee', 'src/**/*.coffee', 'spec/*.coffee', 'spec/**/*.coffee'])
     .pipe(coffeelint())
     .pipe(coffeelint.reporter())
 )
 
 gulp.task('watch', ->
-  gulp.watch('**/*.coffee', ['test'])
+  gulp.watch('**/*.coffee', ['spec'])
 )
 
 gulp.task('build', ['coffee', 'browserify'], ->
   console.log('Done.')
 )
 
-gulp.task('default', ['lint', 'test', 'build'], ->
+gulp.task('default', ['lint', 'spec', 'build'], ->
   console.log('Done.')
 )
