@@ -1,16 +1,7 @@
 assert = require("assert")
+testUtils = require("../utils")
 eunomia = require("../../src/eunomia")
 useCases = require("./use_cases")
-
-
-assertHasRole (object, role) ->
-  if !eunomia.hasRole(object, role)
-    assert(false, 'Object ' + object + ' does not have role ' + role)
-
-
-assertDoesNotHaveRole (object, role) ->
-  if eunomia.hasRole(object, role)
-    assert(false, 'Object ' + object + ' has role ' + role)
 
 
 describe('Roles', ->
@@ -65,7 +56,7 @@ describe('Roles', ->
       assert(pr.isMerged(), 'PR not merged! Something went wrong')
     )
 
-    it('does not accept roles not defined during initialization', ()->
+    it('does not accept roles not defined during initialization', ->
       eunomia.context('Test use case', [useCases.roles.developer], (contextObject)->
 
       )

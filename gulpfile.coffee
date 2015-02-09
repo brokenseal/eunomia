@@ -8,11 +8,11 @@ coffeeify = require('gulp-coffeeify')
 uglify = require('gulp-uglify')
 
 compileCoffeeScriptFiles = (path) ->
-    gulp.src(path + '/*.coffee')
-      .pipe(sourceMaps.init())
-      .pipe(coffee({bare: true}).on('error', gulpUtil.log))
-      .pipe(sourceMaps.write())
-      .pipe(gulp.dest('dist/node/' + path))
+  gulp.src(path + '/*.coffee')
+    .pipe(sourceMaps.init())
+    .pipe(coffee({bare: true}).on('error', gulpUtil.log))
+    .pipe(sourceMaps.write())
+    .pipe(gulp.dest('dist/node/' + path))
 
 
 gulp.task('coffee', ->
@@ -30,12 +30,18 @@ gulp.task('browserify', ->
 
 gulp.task('test', ->
   gulp.src([
-    'test/unit/*.coffee'
+    'tests/unit/*.coffee'
   ], {read: false}).pipe(mocha({reporter: 'nyan'}))
 )
 
+gulp.task('spec', ->
+  gulp.src([
+    'tests/unit/*.coffee'
+  ], {read: false}).pipe(mocha({reporter: 'spec'}))
+)
+
 gulp.task('lint', ->
-  gulp.src(['*.coffee', 'src/*.coffee', 'src/**/*.coffee', 'test/*.coffee', 'test/**/*.coffee'])
+  gulp.src(['*.coffee', 'src/*.coffee', 'src/**/*.coffee', 'tests/*.coffee', 'tests/**/*.coffee'])
     .pipe(coffeelint())
     .pipe(coffeelint.reporter())
 )
