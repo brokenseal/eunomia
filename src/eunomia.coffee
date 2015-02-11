@@ -1,10 +1,12 @@
+# TODO: instanceof is not reliable, use something else
+
 class Role
-  constructor: (spec, entityInterface=null)->
+  constructor: (spec, entityInterface)->
     # spec represents the role's methods, need to contain only methods and no state
     @validateSpec(spec)
     @spec = spec
     # entityInterface is a non mandatory interface to which entities need to comply to
-    @interface = entityInterface
+    @entityInterface = entityInterface
 
   validateSpec: (spec)->
     # defined spec must contain only methods
@@ -13,11 +15,12 @@ class Role
         throw new Error('Given spec is not accepted')
 
   validateInterfaceAgainst: (entity)->
-    if @interface is not null
+    if @entityInterface
       # check that the given entity complies to the previously given interface
-      for name of @interface
-        if not (@spec[name] instanceof @interface[name])
-          throw new Error("Given entity does not comply to the role's needed interface")
+      for name of @entityInterface
+        if not (entity[name] instanceof @entityInterface[name])
+          throw new Error("Given entity does not comply to the role's needed interface,
+                          attribute missing: `" + name + "` of type " + @entityInterface[name])
 
   applyTo: (entity)->
     @validateInterfaceAgainst(entity)
@@ -34,7 +37,6 @@ class Actor
     @role = role
 
     for name of @role.spec
-      console.log(name)
       @[name] = @role.spec[name].bind(@entity)
 
 useCaseFactory = (roles, method)->
@@ -42,7 +44,7 @@ useCaseFactory = (roles, method)->
     # create the actors the use case will manage
     actors = {}
     for name of entities
-      actors[name] = new Actor(roles[name], entities[name])
+      actors[name] = roles[name].applyTo(entities[name])
 
     return method.call(null, actors)
 

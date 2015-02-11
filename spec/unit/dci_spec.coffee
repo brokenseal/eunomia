@@ -23,8 +23,8 @@ describe('A context', ->
       })
     ).to.not.throw(Error)
 
-    expect(context.throwPotatoes).to.be.instanceOf(Function)
-    expect(context.eatPotatoes).to.be.instanceOf(Function)
+    expect(context.throwPotatoes).to.be.a.function
+    expect(context.eatPotatoes).to.be.a.function
   )
 
   it('is responsible to assign roles to actors', ->
@@ -67,9 +67,17 @@ describe('A context', ->
 
 describe('A role', ->
   it('needs to be stateless', ->
+    # I'm not 100% sure this is the best way to make sure a role is stateless
+    # in fact, I'm not sure if it's at all possible, at least not in Javascript
     expect(->
       eunomia.role({
         potatoes: [1, 2, 3, 4]
+        throw: (potato)->
+      })
+    ).to.throw(Error)
+    expect(->
+      eunomia.role({
+        potatoes: 3
         throw: (potato)->
       })
     ).to.throw(Error)
@@ -80,15 +88,69 @@ describe('A role', ->
     ).to.not.throw(Error)
   )
 
-  it.skip('infers an interface to an actor', ->
-    # at the moment, the current code does not infer methods to the actor but rather create a proxy object which will
+  it('infers an interface to an actor', ->
+    # at the moment, the current code does not infer methods to the actor but rather creates a proxy object which will
     # execute methods in the context of the actor itself
+    potatoFestival = eunomia.context({
+      potatoLover: eunomia.role({
+        cookPotatoes: ->
+        eatPotatoes: ->
+      })
+    }, {
+      cookingCompetition: (actors)->
+        expect(actors.potatoLover.cookPotatoes).to.be.a.function
+        expect(actors.potatoLover.eatPotatoes).to.be.a.function
+        expect(actors.potatoLover.smashPotatoes).to.not.be.a.function
+    })
+    jenny = {firstName: 'Jennifer'}
+    potatoFestival.cookingCompetition({
+      potatoLover: jenny
+    })
   )
 
-  it.skip('can only be bound to objects to which it make sense to bind it, otherwise a `MESSAGE NOT UNDERSTOOD` error
+  it('can only be bound to objects to which it make sense to bind it, otherwise a `MESSAGE NOT UNDERSTOOD` error
           will be raised', ->
-    # the role could need the actor to which it will be bound to conform to a specific interface, therefore forcing a
-    # structural type checking on actors to which it is applied to
+    potatoSmasher = eunomia.role({
+      smashPotato: ->
+        # here, the role methods will access attributes and methods from the entity
+        @kissPotato()
+
+        getPotatoFromStash = @potatoes.pop()
+        # and now, smash it!
+    }, {
+      hasPotatoes: Boolean
+      lovesPotatoes: Boolean
+      potatoes: Array
+      kissPotato: Function
+    })
+
+    potatoFestival = eunomia.context({
+      potatoSmasher: potatoSmasher
+    }, {
+      smashingCompetition: (actors)->
+        actors.potatoSmasher.smashPotato()
+    })
+
+    james = {firstName: 'James'}
+    donald = {
+      firstName: 'Donald'
+      lovesPotatoes: new Boolean(true)  # ok, we have a problem with instanceof...
+      hasPotatoes: new Boolean(true)
+      potatoes: [1, 2, 3, 4, 5]
+      kissPotato: ->
+    }
+
+    # expect error if given a wrong entity
+    expect(->
+      potatoFestival.smashingCompetition({
+        potatoSmasher: james
+      })
+    ).to.throw(Error)
+
+    # expect success if given a correct entity
+    potatoFestival.smashingCompetition({
+      potatoSmasher: donald
+    })
   )
 
   it.skip('but multiple roles can be bound to the same actor', ->
