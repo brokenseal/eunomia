@@ -56,12 +56,13 @@ describe('A context', ->
       potatoEater: paul
     })
   )
-  it.skip('object is instantiated for each enactment of a use case for which it is responsible', ->
-    # not sure if this applies here
+
+  it('object is instantiated for each enactment of a use case for which it is responsible', ->
+    # this one is part of the spec but does not apply here since, in this implementation, a context is not a class
   )
 
-  it.skip('needs to identify the objects that will participate in the use case at the start of a use case enactment', ->
-    # again, not sure what this means, a context should receive the entities, not look for them by itself
+  it('needs to identify the objects that will participate in the use case at the start of a use case enactment', ->
+    # a context automatically identifies actors by receiving them as the first argument
   )
 )
 
@@ -153,19 +154,92 @@ describe('A role', ->
     })
   )
 
-  it.skip('but multiple roles can be bound to the same actor', ->
+  it('can only be bound to one actor', ->
+    # there's nothing much to check here since a JSON object of entities passed in to a context cannot two equal
+    # keys (well, they can but it's a programmer error)
   )
 
-  it.skip('can only be bound to one actor', ->
+  it('but multiple roles can be bound to the same actor', ->
+    potatoFestival = eunomia.context({
+      potatoGrinder: eunomia.role({
+        grindPotato: ->
+          expect(@firstName).to.be.equal('Saul')
+      })
+      potatoSeller: eunomia.role({
+        sellPotato: ->
+          expect(@firstName).to.be.equal('Saul')
+      })
+    }, {
+      potatoStuff: (actors)->
+        actors.potatoGrinder.grindPotato()
+        actors.potatoSeller.sellPotato()
+    })
+
+    saul = {firstName: 'Saul'}
+    potatoFestival.potatoStuff({
+      potatoGrinder: saul
+      potatoSeller: saul
+    })
   )
 
-  it.skip('methods run in the context of an actor that is selected by the context to play it for the current use case
+  it('methods run in the context of an actor that is selected by the context to play it for the current use case
           enactment.', ->
+    potatoFestival = eunomia.context({
+      potatoSeller: eunomia.role({
+        sellPotato: ->
+          expect(@firstName).to.be.equal('Saul')
+          expect(@lastName).to.be.equal('MacCartney')
+      })
+    }, {
+      potatoStuff: (actors)->
+        actors.potatoSeller.sellPotato()
+    })
+
+    saul = {firstName: 'Saul', lastName: 'MacCartney'}
+    potatoFestival.potatoStuff({
+      potatoSeller: saul
+    })
   )
 
-  it.skip('is cast anew on every use case enactment to an actor', ->
+  it('is cast anew on every use case enactment to an actor', ->
+    roles = {
+      potatoSeller: eunomia.role({
+        sellPotato: ->
+      })
+    }
+    potatoFestival = eunomia.context(roles, {
+      potatoStuff: (actors)->
+        expect(eunomia.hasRole(actors.potatoSeller, roles.potatoSeller)).to.be.true
+    })
+
+    saul = {firstName: 'Saul', lastName: 'MacCartney'}
+    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
+    potatoFestival.potatoStuff({
+      potatoSeller: saul
+    })
+    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
+    potatoFestival.potatoStuff({
+      potatoSeller: saul
+    })
+    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
   )
 
-  it.skip('is removed at the end of a use case enactment from the corresponding actor', ->
+  it('is removed at the end of a use case enactment from the corresponding actor', ->
+    roles = {
+      potatoSeller: eunomia.role({
+        sellPotato: ->
+      })
+    }
+    potatoFestival = eunomia.context(roles, {
+      potatoStuff: (actors)->
+        expect(eunomia.hasRole(actors.potatoSeller, roles.potatoSeller)).to.be.true
+    })
+
+    saul = {firstName: 'Saul', lastName: 'MacCartney'}
+    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
+    potatoFestival.potatoStuff({
+      potatoSeller: saul
+    })
+    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
   )
 )
