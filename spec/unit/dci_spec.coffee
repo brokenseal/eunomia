@@ -4,6 +4,58 @@ testUtils = require("../utils")
 
 
 describe('A context', ->
+  it('represents at least one use case', ->
+    expect(->
+      eunomia.context({}, {})
+    ).to.throw(Error)
+    expect(->
+      eunomia.context({}, {throwPotatoes: ->})
+    ).to.not.throw(Error)
+  )
+
+  it('can represent more than one use case', ->
+    context = null
+
+    expect(->
+      context = eunomia.context({}, {
+        throwPotatoes: ->
+        eatPotatoes: ->
+      })
+    ).to.not.throw(Error)
+
+    expect(context.throwPotatoes).to.be.instanceOf(Function)
+    expect(context.eatPotatoes).to.be.instanceOf(Function)
+  )
+
+  it('is responsible to assign roles to actors', ->
+    roles = {
+      potatoEater: eunomia.role({
+        eat: (potato)->
+      }),
+      potatoThrower: eunomia.role({
+        throw: (potato)->
+      })
+    }
+
+    potatoFestival = eunomia.context(roles, {
+      throwPotatoes: (actors)->
+        expect(eunomia.hasRole(actors.potatoThrower, roles.potatoThrower)).to.be.true
+        actors.potatoThrower.throw()
+      eatPotatoes: (actors)->
+        expect(eunomia.hasRole(actors.potatoEater, roles.potatoEater)).to.be.true
+        actors.potatoEater.eat()
+    })
+
+    paul = {firstName: 'Paul'}
+
+    potatoFestival.throwPotatoes({
+      potatoThrower: paul
+    })
+
+    potatoFestival.eatPotatoes({
+      potatoEater: paul
+    })
+  )
   it.skip('object is instantiated for each enactment of a use case for which it is responsible', ->
     # not sure if this applies here
   )
@@ -11,21 +63,21 @@ describe('A context', ->
   it.skip('needs to identify the objects that will participate in the use case at the start of a use case enactment', ->
     # again, not sure what this means, a context should receive the entities, not look for them by itself
   )
-
-  it.skip('represents at least one use case', ->
-  )
-
-  it.skip('can represent more than one use case', ->
-  )
-
-  it.skip('is responsible to assign roles to actors', ->
-  )
 )
 
 describe('A role', ->
-  it.skip('needs to be stateless', ->
-    # how do we ensure that a role is stateless? should we accept roles only with methods and not attributes?
-    # we could use a singleton with private set of variable for internal use to a role if necessary
+  it('needs to be stateless', ->
+    expect(->
+      eunomia.role({
+        potatoes: [1, 2, 3, 4]
+        throw: (potato)->
+      })
+    ).to.throw(Error)
+    expect(->
+      eunomia.role({
+        throw: (potato)->
+      })
+    ).to.not.throw(Error)
   )
 
   it.skip('infers an interface to an actor', ->

@@ -30,7 +30,7 @@ gulp.task('browserify', ->
 
 gulp.task('spec', ->
   gulp.src([
-    'spec/*.coffee'
+    'spec/unit/*.coffee',
   ], {read: false}).pipe(mocha({reporter: 'nyan'}))
 )
 
@@ -41,7 +41,10 @@ gulp.task('lint', ->
 )
 
 gulp.task('watch', ->
-  gulp.watch('**/*.coffee', ['spec'])
+  gulp.watch([
+    '**/*.coffee',
+    'src/*.coffee'
+  ], ['spec'])
 )
 
 gulp.task('build', ['coffee', 'browserify'], ->
