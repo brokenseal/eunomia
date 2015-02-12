@@ -15,16 +15,15 @@ For a more complete description please read more at the following links:
 - [Trygve Reenskaug Website](http://folk.uio.no/trygver/)
 
 
-Terminology
-------------
-- **Data**: an **actor** wannabe, any object given to a **context** that has not yet received a **role**
+Eunomia Terminology
+-------------------
+- **Entity**: **data**, an object, an **actor** wannabe, any object given to a **use case** that has not yet received a **role**
 - **Actor**: **Data**, an object, with a specific set of **roles**, that will interact inside a **context** with other **actors**
-- **Context**: a **use case** scenario where one ore more actors will act
-- **Use case**: same as a **context**
+- **Context**: a group of one or more **use case** scenarios where one ore more actors will act
+- **Use case**: the core of your software, where all the action will happen, the place where actors will interact giving value to your application
 - **Role**: a set of abilities and attributes to be given to an **actor**
-- **Context object**: whenever a **context** is used, a new **context object** will be created that will handle **role** assignment and other things (not clear at the moment)
 
 This is still a very incomplete project under heavy development, I'm still not sure if I like the api as it is now
 
 
-Many thanks go to @explorigin for his help defining the spec.
+Many thanks go to [Timothy Farrell](https://github.com/explorigin) for his help defining the spec.
