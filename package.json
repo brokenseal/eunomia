@@ -1,6 +1,6 @@
 {
   "name": "eunomia",
-  "version": "0.1",
+  "version": "0.0.1",
   "description": "DCI for JS",
   "main": "dist/node/eunomia.js",
   "dependencies": {},
@@ -22,8 +22,8 @@
     "sinon": "^1.11.1"
   },
   "scripts": {
-    "test": "gulp test",
-    "prepublish": "gulp test"
+    "test": "gulp spec",
+    "prepublish": "gulp spec"
   },
   "repository": {
     "type": "git",
