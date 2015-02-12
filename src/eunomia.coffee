@@ -41,6 +41,7 @@ class Actor
     for name of @role.spec
       @[name] = @role.spec[name].bind(@entity)
 
+
 useCaseFactory = (roles, method)->
   return (entities)->
     # create the actors the use case will manage
@@ -49,6 +50,7 @@ useCaseFactory = (roles, method)->
       actors[name] = roles[name].applyTo(entities[name])
 
     return method.call(null, actors)
+
 
 exports.context = (roles, useCases)->
   # validate roles
@@ -64,6 +66,7 @@ exports.context = (roles, useCases)->
     useCasesProxies[name] = useCaseFactory(roles, useCases[name])
 
   return useCasesProxies
+
 
 exports.role = (roleSpec, entityInterface)->
   return new Role(roleSpec, entityInterface)
