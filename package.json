@@ -2,7 +2,7 @@
   "name": "eunomia",
   "version": "0.0.1",
   "description": "DCI for JS",
-  "main": "dist/eunomia.js",
+  "main": "dist/browser/eunomia.js",
   "dependencies": {},
   "devDependencies": {
     "chai": "^1.10.0",

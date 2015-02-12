@@ -12,7 +12,7 @@ compileCoffeeScriptFiles = (path) ->
     .pipe(sourceMaps.init())
     .pipe(coffee({bare: true}).on('error', gulpUtil.log))
     .pipe(sourceMaps.write())
-    .pipe(gulp.dest('dist/node/' + path))
+    .pipe(gulp.dest('dist/node/'))
 
 
 gulp.task('coffee', ->
