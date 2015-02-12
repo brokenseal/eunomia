@@ -1,6 +1,8 @@
 expect = require("chai").expect
-eunomia = require("../../src/eunomia")
-testUtils = require("../utils")
+eunomia = require("../src/eunomia")
+
+hasRole = (actor, role)->
+  return actor.role is role
 
 
 describe('A context', ->
@@ -39,10 +41,10 @@ describe('A context', ->
 
     potatoFestival = eunomia.context(roles, {
       throwPotatoes: (actors)->
-        expect(eunomia.hasRole(actors.potatoThrower, roles.potatoThrower)).to.be.true
+        expect(hasRole(actors.potatoThrower, roles.potatoThrower)).to.be.true
         actors.potatoThrower.throw()
       eatPotatoes: (actors)->
-        expect(eunomia.hasRole(actors.potatoEater, roles.potatoEater)).to.be.true
+        expect(hasRole(actors.potatoEater, roles.potatoEater)).to.be.true
         actors.potatoEater.eat()
     })
 
@@ -154,11 +156,6 @@ describe('A role', ->
     })
   )
 
-  it('can only be bound to one actor', ->
-    # there's nothing much to check here since a JSON object of entities passed in to a context cannot two equal
-    # keys (well, they can but it's a programmer error)
-  )
-
   it('but multiple roles can be bound to the same actor', ->
     potatoFestival = eunomia.context({
       potatoGrinder: eunomia.role({
@@ -209,19 +206,19 @@ describe('A role', ->
     }
     potatoFestival = eunomia.context(roles, {
       potatoStuff: (actors)->
-        expect(eunomia.hasRole(actors.potatoSeller, roles.potatoSeller)).to.be.true
+        expect(hasRole(actors.potatoSeller, roles.potatoSeller)).to.be.true
     })
 
     saul = {firstName: 'Saul', lastName: 'MacCartney'}
-    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
+    expect(hasRole(saul, roles.potatoSeller)).to.be.false
     potatoFestival.potatoStuff({
       potatoSeller: saul
     })
-    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
+    expect(hasRole(saul, roles.potatoSeller)).to.be.false
     potatoFestival.potatoStuff({
       potatoSeller: saul
     })
-    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
+    expect(hasRole(saul, roles.potatoSeller)).to.be.false
   )
 
   it('is removed at the end of a use case enactment from the corresponding actor', ->
@@ -232,14 +229,18 @@ describe('A role', ->
     }
     potatoFestival = eunomia.context(roles, {
       potatoStuff: (actors)->
-        expect(eunomia.hasRole(actors.potatoSeller, roles.potatoSeller)).to.be.true
+        expect(hasRole(actors.potatoSeller, roles.potatoSeller)).to.be.true
     })
 
     saul = {firstName: 'Saul', lastName: 'MacCartney'}
-    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
+    expect(hasRole(saul, roles.potatoSeller)).to.be.false
     potatoFestival.potatoStuff({
       potatoSeller: saul
     })
-    expect(eunomia.hasRole(saul, roles.potatoSeller)).to.be.false
+    expect(hasRole(saul, roles.potatoSeller)).to.be.false
+  )
+  it('can only be bound to one actor', ->
+    # there's nothing much to check here since a JSON object of entities passed in to a context cannot two equal
+    # keys (well, they can but it's a programmer error)
   )
 )

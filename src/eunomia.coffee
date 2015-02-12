@@ -65,6 +65,3 @@ exports.context = (roles, useCases)->
 
 exports.role = (roleSpec, entityInterface)->
   return new Role(roleSpec, entityInterface)
-
-exports.hasRole = (actor, role)->
-  return actor.role is role
