@@ -137,8 +137,8 @@ describe('A role', ->
     james = {firstName: 'James'}
     donald = {
       firstName: 'Donald'
-      lovesPotatoes: new Boolean(true)  # ok, we have a problem with instanceof...
-      hasPotatoes: new Boolean(true)
+      lovesPotatoes: true
+      hasPotatoes: true
       potatoes: [1, 2, 3, 4, 5]
       kissPotato: ->
     }

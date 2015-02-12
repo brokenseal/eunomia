@@ -1,15 +1,12 @@
-# TODO: instanceof is not reliable, use something else
-
 class Role
   constructor: (spec, entityInterface)->
-    # spec represents the role's methods, need to contain only methods and no state
     @validateSpec(spec)
     @spec = spec
     # entityInterface is a non mandatory interface to which entities need to comply to
     @entityInterface = entityInterface
 
   validateSpec: (spec)->
-    # defined spec must contain only methods
+    # a spec represents the role's methods, need to contain only methods and no state
     for name of spec
       if not (spec[name] instanceof Function)
         throw new Error('Given spec is not accepted')
@@ -18,9 +15,14 @@ class Role
     if @entityInterface
       # check that the given entity complies to the previously given interface
       for name of @entityInterface
-        if not (entity[name] instanceof @entityInterface[name])
-          throw new Error("Given entity does not comply to the role's needed interface,
-                          attribute missing: `" + name + "` of type " + @entityInterface[name])
+        obj = entity[name]
+        klass = @entityInterface[name]
+
+        if obj instanceof klass or toString.call(obj) == "[object " + klass.name + "]"
+          continue
+
+        throw new Error("Given entity does not comply to the role's needed interface,
+                        attribute missing: `" + name + "` of type " + @entityInterface[name])
 
   applyTo: (entity)->
     @validateInterfaceAgainst(entity)
