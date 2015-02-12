@@ -1,9 +1,10 @@
 {
   "name": "eunomia",
-  "version": "0.0.1",
+  "version": "0.1",
   "description": "DCI for JS",
-  "main": "dist/browser/eunomia.js",
+  "main": "dist/node/eunomia.js",
   "dependencies": {},
+  "browserDependencies": {},
   "devDependencies": {
     "chai": "^1.10.0",
     "coffee-script": "^1.8.0",
@@ -26,7 +27,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/brokenseal/eunomia.git"
+    "url": "https://github.com/brokenseal/eunomia"
   },
   "keywords": [
     "eunomia",
@@ -34,6 +35,7 @@
     "data context interaction"
   ],
   "author": "Davide Callegari",
+  "contributors": [{"name": "Timothy Farrel", "email": "explorigin@gmail.com"}],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/brokenseal/eunomia/issues"
