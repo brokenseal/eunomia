@@ -35,7 +35,7 @@ gulp.task('spec', ->
 )
 
 gulp.task('lint', ->
-  gulp.src(['*.coffee', 'src/*.coffee', 'src/**/*.coffee', 'spec/*.coffee', 'spec/**/*.coffee'])
+  gulp.src(['*.coffee', 'src/*.coffee', 'spec/*.coffee'])
     .pipe(coffeelint())
     .pipe(coffeelint.reporter())
 )
@@ -46,10 +46,6 @@ gulp.task('watch', ->
   ], ['spec'])
 )
 
-gulp.task('build', ['coffee', 'browserify'], ->
-  console.log('Done.')
-)
+gulp.task('build', ['lint', 'spec', 'coffee', 'browserify'], ->)
 
-gulp.task('default', ['lint', 'spec', 'build'], ->
-  console.log('Done.')
-)
+gulp.task('default', ['build'], ->)

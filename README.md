@@ -27,7 +27,7 @@ API
 ---
 Eunomia exposes two main functions: role and context
 
-*eunomia.role(roleSpec, entityInterface)*
+**eunomia.role(roleSpec, entityInterface)**
 - roleSpec is a generic JSON object defining all methods that express the role
 - entityInterface is a, non mandatory, generic JSON object defining the interface that actors will have to comply to, a sort of structural static type specification
 
@@ -63,7 +63,7 @@ var roles = {
 };
 ```
 
-*eunomia.context(roles, useCases)*
+**eunomia.context(roles, useCases)**
 - roles is a generic JSON object referring to roles created by eunomia.role
 - useCases is a generic JSON object referring to use cases as functions; these use cases will be invoked using the appropriate actors
 

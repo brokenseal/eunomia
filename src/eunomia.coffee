@@ -18,7 +18,7 @@ class Role
         obj = entity[name]
         klass = @entityInterface[name]
 
-        if obj instanceof klass or toString.call(obj) == "[object " + klass.name + "]"
+        if obj instanceof klass or toString.call(obj) is "[object " + klass.name + "]"
           continue
 
         throw new Error("Given entity does not comply to the role's needed interface,
@@ -58,7 +58,7 @@ exports.context = (roles, useCases)->
     if not (roles[name] instanceof Role)
       throw new Error("Roles can only be instances of Role")
 
-  if Object.keys(useCases).length == 0
+  if Object.keys(useCases).length is 0
     throw new Error('Context must be able to enact at least one use case')
 
   useCasesProxies = {}
