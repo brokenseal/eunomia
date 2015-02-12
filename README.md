@@ -5,7 +5,7 @@ Many thanks go to [Timothy Farrell](https://github.com/explorigin) for his help 
 A short description of DCI: Data, Context, Interaction
 
 - **Data**: a dumb object passed in and used inside a context
-- **Context**: an environment where roles are given to data to make turn them into smart objects and interact with each other
+- **Context**: an environment where roles are given to data to turn them into smart objects and interact with each other
 - **Interaction**: interaction between actors is expressed with code inside the enclosed environment that is the context
 
 For a more complete description please read more at the following links:
@@ -22,6 +22,7 @@ Eunomia Terminology
 - **Context**: a group of one or more **use case** scenarios where one ore more actors will act
 - **Use case**: the core of your software, where all the action will happen, the place where actors will interact giving value to your application
 - **Role**: a set of abilities and attributes to be given to an **actor**
+
 
 API
 ---

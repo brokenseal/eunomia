@@ -1,7 +1,7 @@
 {
   "name": "eunomia",
   "version": "0.0.1",
-  "description": "DCI for JS",
+  "description": "Data Context Interaction library aiming Javascript",
   "main": "dist/node/eunomia.js",
   "dependencies": {},
   "browserDependencies": {},
