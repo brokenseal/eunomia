@@ -1,7 +1,7 @@
 {
   "name": "eunomia",
   "version": "0.0.1",
-  "description": "Data Context Interaction library aiming Javascript",
+  "description": "DCI Code Organization library for Javascript",
   "main": "dist/node/eunomia.js",
   "dependencies": {},
   "browserDependencies": {},
@@ -35,7 +35,7 @@
     "data context interaction"
   ],
   "author": "Davide Callegari",
-  "contributors": [{"name": "Timothy Farrel", "email": "explorigin@gmail.com"}],
+  "contributors": [{"name": "Timothy Farrell", "email": "explorigin@gmail.com"}],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/brokenseal/eunomia/issues"

@@ -1,12 +1,15 @@
-DCI project aiming Javascript
+DCI Code Organization library for Javascript
 =============================
 Many thanks go to [Timothy Farrell](https://github.com/explorigin) for his help defining the spec.
 
+DCI is a way of organizing code that maps UML use-cases to code in a way that maintains code organization better than traditional object-oriented programming with a large or complex code-base.
+
 A short description of DCI: Data, Context, Interaction
 
-- **Data**: a dumb object passed in and used inside a context
-- **Context**: an environment where roles are given to data to turn them into smart objects and interact with each other
+- **Data**: javascript object(s) passed in and used inside a context
+- **Context**: an environment where roles are assigned to data objects to turn them into actors within the context
 - **Interaction**: interaction between actors is expressed with code inside the enclosed environment that is the context
+
 
 For a more complete description please read more at the following links:
 - [Wikipedia article about DCI](http://en.wikipedia.org/wiki/Data,_context_and_interaction)
@@ -14,15 +17,14 @@ For a more complete description please read more at the following links:
 - [Full OO Website](http://fulloo.info/)
 - [Trygve Reenskaug Website](http://folk.uio.no/trygver/)
 
-
 Eunomia Terminology
 -------------------
-- **Entity**: **data**, an object, an **actor** wannabe, any object given to a **use case** that has not yet received a **role**
-- **Actor**: **Data**, an object, with a specific set of **roles**, that will interact inside a **context** with other **actors**
-- **Context**: a group of one or more **use case** scenarios where one ore more actors will act
-- **Use case**: the core of your software, where all the action will happen, the place where actors will interact giving value to your application
+- **Entity**: **data**, any object in a **use case** that has not yet received a DCI **role**.
 - **Role**: a set of abilities and attributes to be given to an **actor**
-
+- **Actor**: **Data**, an object, with one or more **roles**, that will interact inside a **context** with other **actors** to fulfill a **use case**.
+- **Context**: a group of one or more **use case** scenarios where one ore more actors will act
+- **Use case**: a feature in your software product.  
+- **Interaction**: the entry-point for the **context** in which a **use case** is fulfilled.
 
 API
 ---
@@ -30,7 +32,7 @@ Eunomia exposes two main functions: role and context
 
 **eunomia.role(roleSpec, entityInterface)**
 - roleSpec is a generic JSON object defining all methods that express the role
-- entityInterface is a, non mandatory, generic JSON object defining the interface that actors will have to comply to, a sort of structural static type specification
+- entityInterface is an optional, generic JSON object defining the interface that actors will have to implement. It is a sort of structural static-type specification.
 
 Examples:
 ```
