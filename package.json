@@ -35,7 +35,7 @@
     "data context interaction"
   ],
   "author": "Davide Callegari",
-  "contributors": [{"name": "Timothy Farrel", "email": "explorigin@gmail.com"}],
+  "contributors": [{"name": "Timothy Farrell", "email": "explorigin@gmail.com"}],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/brokenseal/eunomia/issues"
